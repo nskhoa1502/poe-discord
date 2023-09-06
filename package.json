@@ -4,7 +4,7 @@
   "description": "PoE Guild Managment Discord Bot",
   "main": "app.js",
   "scripts": {
-    "start": "node app.js",
+    "start": "node src/app.js",
     "start-heroku": "node src/app.js",
     "start-local": "node src/app.js"
   },
