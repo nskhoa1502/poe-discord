@@ -1,0 +1,9 @@
+node_modules
+package-lock.json
+.vscode/
+/logs/*
+
+# exception to the rule
+!/logs/.gitkeep
+
+.env

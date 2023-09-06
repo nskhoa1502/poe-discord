@@ -1,0 +1,27 @@
+stages:
+  - build
+
+services:
+  - docker:dind
+
+build-job: 
+  stage: build
+  image: docker:latest
+  script:
+    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
+    - docker build -t $CI_REGISTRY_IMAGE:latest .
+    - docker push $CI_REGISTRY_IMAGE:latest
+  only:
+    - master
+    - main
+
+build-job:test: 
+  stage: build
+  image: docker:latest
+  script:
+    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
+    - docker build -t $CI_REGISTRY_IMAGE:test .
+    - docker push $CI_REGISTRY_IMAGE:test
+  except:
+    - master
+    - main

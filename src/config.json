@@ -1,0 +1,32 @@
+{
+  "guildProfileId": 858454,
+  "timezone": "Australia/Sydney",
+  "currentLeague": "Trial Of The Ancestor",
+  "welcomeMessage": "Welcome to Exiled Aussies, we're fucken juiced...",
+  "refreshUsersTtl": 3600000,
+  "logLevel": "debug",
+  "commandStart": "!",
+  "db": {
+    "exileDbUrl": "mongodb://localhost:27017/igExilesDB",
+    "exileDbName": "igExilesDB",
+    "currentExilesCollection": "currentExiles",
+    "appliedExilesCollection": "appliedExiles"
+  },
+  "discord": {
+    "rateLimit": 4,
+    "rateInterval": 1000,
+    "receivedCommandMessageRemovalDelay": 5000,
+    "sentMessageRemovalDelay": 10000,
+    "guildUid": "696226567487225896",
+    "guildRulesChannel": "696499901613342730",
+    "guildOwnerUid": "113592772140728329",
+    "membersLogChannel": "696499278054686780",
+    "roles": {
+      "officerRole": "696500538191249458",
+      "botAdminRole": "696500985752977530",
+      "appliedRole": "696500900079992832",
+      "exMemberRole": "696500764662694000",
+      "memberRole": "696500608613482496"
+    }
+  }
+}
