@@ -1,3 +1,4 @@
+require("dotenv").config();
 const cheerio = require("cheerio");
 const Logger = require("../logger").getLogger();
 const CurrentExile = require("../data-access/currentExiles");
@@ -10,9 +11,9 @@ require("events").EventEmitter.prototype._maxListeners = 250;
 
 const PoeHttp = require("../http-access/poeHttp");
 
-const challengesGoldRole = "1148867816943009864";
-const challengesSilverRole = "1148867714635530350";
-const challengesBronzeRole = "1148867946215653386";
+const challengesGoldRole = process.env.CHALLENGES_GOLD_ROLE_UID;
+const challengesSilverRole = process.env.CHALLENGES_SILVER_ROLE_UID;
+const challengesBronzeRole = process.env.CHALLENGES_BRONZE_ROLE_UID;
 
 let currentMemberLength, memberExecuter;
 
