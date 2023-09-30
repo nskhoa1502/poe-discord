@@ -102,35 +102,35 @@ function sendMessageToMembersLogChannel(message) {
 function sendMessageAndRemoveCommandMessage(receivedMessage, message) {
   receivedMessage.channel
     .send(message)
-    .then((sentMessage) => {
-      if (receivedMessage.guild !== null) {
-        setTimeout(
-          () =>
-            sentMessage
-              .delete()
-              .then((deletedMessage) => {
-                Logger.debug(
-                  `Deleted message from ${deletedMessage.author.username}`
-                );
-              })
-              .catch((err) => Logger.warn(`Error deletingMessage - ${err}`)),
-          discordSentMessageRemovalDelay
-        );
+    // .then((sentMessage) => {
+    //   if (receivedMessage.guild !== null) {
+    //     setTimeout(
+    //       () =>
+    //         sentMessage
+    //           .delete()
+    //           .then((deletedMessage) => {
+    //             Logger.debug(
+    //               `Deleted message from ${deletedMessage.author.username}`
+    //             );
+    //           })
+    //           .catch((err) => Logger.warn(`Error deletingMessage - ${err}`)),
+    //       discordSentMessageRemovalDelay
+    //     );
 
-        setTimeout(
-          () =>
-            receivedMessage
-              .delete()
-              .then((deletedMessage) => {
-                Logger.debug(
-                  `Deleted message from ${deletedMessage.author.username}`
-                );
-              })
-              .catch((err) => Logger.warn(`Error deletingMessage - ${err}`)),
-          discordReceivedMessageRemovalDelay
-        );
-      }
-    })
+    //     setTimeout(
+    //       () =>
+    //         receivedMessage
+    //           .delete()
+    //           .then((deletedMessage) => {
+    //             Logger.debug(
+    //               `Deleted message from ${deletedMessage.author.username}`
+    //             );
+    //           })
+    //           .catch((err) => Logger.warn(`Error deletingMessage - ${err}`)),
+    //       discordReceivedMessageRemovalDelay
+    //     );
+    //   }
+    // })
     .catch((err) => {
       Logger.warn(`Error when sending message to discord channel - ${err}`);
     });

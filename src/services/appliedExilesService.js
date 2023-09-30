@@ -26,7 +26,7 @@ function printPendingGuildInvites(receivedMessage) {
 }
 
 function removePendingGuildInvite(discordUid, receivedMessage) {
-  console.log(discordUid);
+  // console.log(discordUid);
   AppliedExile.deleteByDiscordUid(discordUid).then((result) => {
     if (!result || result.deletedCount !== 1) {
       DiscordHelper.sendMessageAndRemoveCommandMessage(

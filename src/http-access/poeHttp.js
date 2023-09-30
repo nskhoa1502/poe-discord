@@ -64,7 +64,7 @@ async function getLeagueLadderForAccountLimited(currentLeague, accountName) {
  * x-rate-limit-rules: Account
  * @param {} accountName
  */
-const getAccountCharacters = valvelet(getAccountCharactersCall, 1, 2000);
+const getAccountCharacters = valvelet(getAccountCharactersCall, 1, 60000);
 
 async function getAccountCharactersCall(accountName) {
   let encodedUrl = encodeURI(

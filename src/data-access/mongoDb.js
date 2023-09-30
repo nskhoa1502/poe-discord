@@ -8,7 +8,7 @@ const MONGO_DB_NAME = process.env.MONGO_DB_NAME
 let _connection;
 
 const connectDB = async (callback) => {
-  console.log(`Mongo uri is`, MONGO_URI);
+  // console.log(`Mongo uri is`, MONGO_URI);
   await MongoClient.connect(MONGO_URI, { useNewUrlParser: true }, (err, db) => {
     _connection = db;
     return callback(err);

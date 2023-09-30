@@ -95,7 +95,9 @@ function getExileCharacterDetails(inGameExiles) {
   completedRequests = 0;
   return new Promise((resolve) => {
     for (let i = 0; i < inGameExiles.length; i++) {
-      executeGetCharacterCall(inGameExiles[i], inGameExiles, resolve);
+      setTimeout(() => {
+        executeGetCharacterCall(inGameExiles[i], inGameExiles, resolve);
+      }, 5000);
     }
   });
 }
@@ -105,21 +107,31 @@ function executeGetCharacterCall(exile, inGameExiles, resolve) {
   resolve(inGameExiles);
   return;
 
-  // PoeHttp.getAccountCharacters(exile.id).then(charactersJson => {
-  //   exile.characters = charactersJson;
-  // }).catch(err => {
-  //   if (err.statusCode === 403) {
-  //     Logger.debug(`## (${err.statusCode}) Forbidden (Private Profile) when looping character info for id ${exile.id}`);
-  //   } else {
-  //     Logger.warn(`## Error(${err.statusCode}) when looping character info for id ${exile.id}`);
-  //   }
-  // }).then(() => {
-  //   completedRequests++;
-  //   if (completedRequests >= inGameExiles.length) {
-  //     Logger.info(`## All character requests now completed - resolving promise.`);
-  //     resolve(inGameExiles);
-  //   }
-  // });
+  // PoeHttp.getAccountCharacters(exile.id)
+  //   .then((charactersJson) => {
+  //     exile.characters = charactersJson;
+  //     // console.log(charactersJson);
+  //   })
+  //   .catch((err) => {
+  //     if (err.statusCode === 403) {
+  //       Logger.debug(
+  //         `## (${err.statusCode}) Forbidden (Private Profile) when looping character info for id ${exile.id}`
+  //       );
+  //     } else {
+  //       Logger.warn(
+  //         `## Error(${err.statusCode}) when looping character info for id ${exile.id}`
+  //       );
+  //     }
+  //   })
+  //   .then(() => {
+  //     completedRequests++;
+  //     if (completedRequests >= inGameExiles.length) {
+  //       Logger.info(
+  //         `## All character requests now completed - resolving promise.`
+  //       );
+  //       resolve(inGameExiles);
+  //     }
+  //   });
 }
 
 // List of users from website as param.
@@ -128,6 +140,8 @@ function updateInGameExiles(inGameExiles) {
     CurrentExilesService.getCurrentMembersOrCreateIfDoesntExist(igExiles).then(
       (result) => {
         if (!result) return;
+
+        // console.log(result);
 
         let igExileUsers = igExiles.map((val) => val.id); // (LATEST GUILD MEMBERS FROM WEBSITE)
         let databaseExiles = result.map((val) => val.id); // (CURRENT GUILD MEMBERS FROM OUT DB)
@@ -419,9 +433,9 @@ function updateGuildMemberRoles(linkedExiles, linkedExile) {
         DiscordHelper.DiscordFileLog.warn(
           `Failed to fetch PoE Account: ${linkedExile.id}, Discord: ${linkedExile.discordUsername}/${linkedExile.discordUid} - ${err}, likely left the discord channel but not guild in game.`
         );
-        DiscordHelper.sendMessageToMembersLogChannel(
-          `Failed to fetch PoE Account: ${linkedExile.id}, Discord: ${linkedExile.discordUsername}/${linkedExile.discordUid} - ${err}, likely left the discord channel but not guild in game.`
-        );
+        // DiscordHelper.sendMessageToMembersLogChannel(
+        //   `Failed to fetch PoE Account: ${linkedExile.id}, Discord: ${linkedExile.discordUsername}/${linkedExile.discordUid} - ${err}, likely left the discord channel but not guild in game.`
+        // );
         errorFetchedForUserIgnoreList.push(linkedExile.discordUid);
       }
     });

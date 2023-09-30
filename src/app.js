@@ -23,6 +23,7 @@ DiscordHelper.onEvent("ready", () => {
 });
 
 DiscordHelper.onEvent("messageCreate", (receivedMessage) => {
+  // console.log(receivedMessage);
   if (receivedMessage.author === DiscordHelper.getClientUser()) {
     return;
   }
