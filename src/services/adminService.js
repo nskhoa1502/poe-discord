@@ -4,6 +4,9 @@ const CurrentExile = require("../data-access/currentExiles");
 const DiscordHelper = require("../discordHelper");
 const { validateAccountName } = require("../controllers/newMemberController");
 const { doLinkChecking } = require("./newMemberService");
+const MongoDB = require("../data-access/mongoDb");
+const currenExilesCollection = "currentExiles";
+const PoeHttp = require("../http-access/poeHttp");
 
 const CURRENT_LEAGUE = process.env.CURRENT_LEAGUE;
 //TODO REPLACE THIS WITH DYNAMIC UPGRADES FROM ANOTHER POE API.
@@ -19,6 +22,50 @@ async function isAdmin(receivedMessage) {
       Logger.info(`Admin Message Received failed due to ${error}`);
       return false;
     });
+}
+
+async function adminGetIgn(discordUid, receivedMessage) {
+  const extractDiscordUidNumber = /<@(\d+)>/; // Modify the regex pattern
+  const discordUidNumb = discordUid.match(extractDiscordUidNumber);
+  let inGameCharacters = [];
+  let numericPart;
+  if (discordUidNumb) {
+    numericPart = discordUidNumb[1];
+  }
+  // console.log("discordUid", discordUid);
+  // console.log("discordNumb", discordUidNumb);
+  // console.log("numericPart", numericPart);
+  try {
+    const user = await MongoDB.getDB()
+      .collection(currenExilesCollection)
+      .findOne({ discordUid: numericPart });
+
+    Logger.info(
+      `Fetching in-game characters for discord user ${user.discordUsername} with poe account ${user.id}`
+    );
+    // console.log("user is", user);
+    // console.log("received message", receivedMessage);
+
+    const charactersJson = await PoeHttp.getAccountCharacters(user.id);
+    console.log("charactersJson", charactersJson);
+    for (let i = 0; i < charactersJson.length; i++) {
+      const { name, league } = charactersJson[i];
+      const className = charactersJson[i]["class"];
+      inGameCharacters.push({ name, className, league });
+    }
+
+    Logger.info(
+      `Finished fetching in-game characters for discord user ${user.discordUsername} with poe account ${user.id}`
+    );
+    // console.log(inGameCharacters);
+
+    await CurrentExile.updateOneIgCharacter(numericPart, inGameCharacters);
+    return;
+  } catch (error) {
+    Logger.info(
+      `Error fetching in-game characters for discord user ${discordUid}`
+    );
+  }
 }
 
 async function isAdminCreateLink(
@@ -79,12 +126,12 @@ function whois(author, receivedMessage) {
   CurrentExile.findOneByDiscordUid(discordUid).then((result) => {
     if (result) {
       let charStr = "No Characters Found - Private Profile or Character Tab.";
-      if (result.characters && result.characters.length > 0) {
+      if (result.inGameCharacters && result.inGameCharacters.length > 0) {
         charStr = `**${CURRENT_LEAGUE} League Characters:** `;
-        for (let i = 0; i < result.characters.length; i++) {
-          let c = result.characters[i];
+        for (let i = 0; i < result.inGameCharacters.length; i++) {
+          let c = result.inGameCharacters[i];
           if (c.league === CURRENT_LEAGUE) {
-            charStr += `*Name:* ${c.name}, Class: ${c.class}, Level: ${c.level}, Experience: ${c.experience} `;
+            charStr += `\n*Name:* ${c.name} \n Class: ${c.className} ;`;
           }
         }
       }
@@ -109,4 +156,5 @@ module.exports = {
   isAdmin,
   whois,
   isAdminCreateLink,
+  adminGetIgn,
 };

@@ -60,6 +60,10 @@ function processCommand(receivedMessage) {
             case "createLink":
               AdminService.isAdminCreateLink(args[1], args[2], receivedMessage);
               break;
+            case "getIgn":
+              AdminService.adminGetIgn(args[1], receivedMessage);
+              break;
+
             case "pending":
               switch (args[1]) {
                 case "remove":
