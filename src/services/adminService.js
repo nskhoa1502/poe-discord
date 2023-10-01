@@ -121,6 +121,10 @@ async function isAdminCreateLink(
         );
       } else {
         doLinkChecking(linkedMember.user, accountName, admin);
+        DiscordHelper.sendMessageAndRemoveCommandMessage(
+          receivedMessage,
+          `Finished linking poe account ${accountName} to ${linkedMember.user.username}`
+        );
       }
     })
     .catch((err) => {
