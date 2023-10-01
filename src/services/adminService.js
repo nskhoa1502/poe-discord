@@ -60,6 +60,14 @@ async function adminGetIgn(discordUid, receivedMessage) {
     // console.log(inGameCharacters);
 
     await CurrentExile.updateOneIgCharacter(numericPart, inGameCharacters);
+    DiscordHelper.sendMessageToMembersLogChannel(
+      `Finished fetching characters for discord ${user.discordUsername} with poe account ${user.id}`
+    );
+    DiscordHelper.sendMessageAndRemoveCommandMessage(
+      receivedMessage,
+      `Finished fetching characters for discord ${user.discordUsername} with poe account ${user.id}`
+    );
+
     return;
   } catch (error) {
     Logger.info(
@@ -82,6 +90,10 @@ async function isAdminCreateLink(
   // console.log("LinkedMember.user", linkedMember.user);
 
   Logger.info(
+    `Admin ${receivedMessage.author.username}/${receivedMessage.author.id} has started linking ${poeAccountName} to member ${linkedMember.user.username}`
+  );
+
+  DiscordHelper.sendMessageToMembersLogChannel(
     `Admin ${receivedMessage.author.username}/${receivedMessage.author.id} has started linking ${poeAccountName} to member ${linkedMember.user.username}`
   );
 
