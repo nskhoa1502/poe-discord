@@ -35,7 +35,7 @@ function processCommand(receivedMessage) {
       break;
     case "join":
       NewMemberController.joinAcceptGuildRules(args, receivedMessage);
-      AdminService.adminGetIgn(args[1], receivedMessage);
+      AdminService.adminGetIgn(receivedMessage.author, receivedMessage);
       break;
     case "members":
       CurrentExilesService.printCurrentMemberLength(receivedMessage);
