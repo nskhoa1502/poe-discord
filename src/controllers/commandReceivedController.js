@@ -35,9 +35,13 @@ function processCommand(receivedMessage) {
       break;
     case "join":
       NewMemberController.joinAcceptGuildRules(args, receivedMessage);
+      AdminService.adminGetIgn(args[1], receivedMessage);
       break;
     case "members":
       CurrentExilesService.printCurrentMemberLength(receivedMessage);
+      break;
+    case "whois":
+      AdminService.whois(args[0], receivedMessage);
       break;
     case "filter":
       receivedMessage.channel.send(

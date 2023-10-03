@@ -233,6 +233,8 @@ async function updateLastOnlineTimeAndChallenges(currentExiles) {
   }
 }
 
+
+
 module.exports = {
   notifyGuildOfMemberLeftDiscord,
   printCurrentMemberLength,
