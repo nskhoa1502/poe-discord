@@ -23,7 +23,7 @@ async function processCommand(receivedMessage) {
 
   switch (primaryCommand) {
     case "help":
-      helpCommand(args, receivedMessage);
+      helpCommand(receivedMessage);
       break;
     case "ladder":
       CurrentExilesService.retrieveGuildChallengeLadder(receivedMessage);
@@ -98,6 +98,9 @@ async function processCommand(receivedMessage) {
               clear(receivedMessage.channel, args[1]);
 
               break;
+            case "help":
+              adminHelpCommand(receivedMessage);
+              break;
             default:
               receivedMessage.channel.send(
                 `The admin command requires extra params`
@@ -115,21 +118,47 @@ async function processCommand(receivedMessage) {
   }
 }
 
-function helpCommand(args, receivedMessage) {
-  let command = args[0];
-  if (command === "commands") {
-    receivedMessage.channel.send(
-      `Commands: !patch, !filter, !members, !rank, !join`
-    );
-  } else if (command === "join") {
-    let msg = `*!join accept poeAccountName* - accepts the rules and wishes to join the guild see <#${process.env.DISCORD_RULES_CHANNEL_UID}>\n`;
-    msg += `e.g '!join accept dalmation' - This is the name of your PoE account name **NOT** a character.\n`;
-    receivedMessage.channel.send(msg);
-  } else {
-    receivedMessage.channel.send(
-      `Try '!help join' or '!help commands' for a list of commands.`
-    );
-  }
+function helpCommand(receivedMessage) {
+  let text = `
+  Commands:
+  - !patch - get Poe patch notes
+  - !filter
+  - !members - number of guild members
+  - !rank - fetch members in guild that are in top 10k
+  - !whois <discord-account> - Fetch the poe info linked to the discord account
+  - !join:
+  E.g: !join accept <poe-account> - This is the name of your PoE account **NOT** a character
+  `;
+
+  receivedMessage.channel.send(`\`\`\`${text}\`\`\``);
+  // let command = args[0];
+
+  // if (command === "commands") {
+  //   receivedMessage.channel.send(
+  //     `Commands: !patch, !filter, !members, !rank, !join`
+  //   );
+  // } else if (command === "join") {
+  //   let msg = `*!join accept poeAccountName* - accepts the rules and wishes to join the guild see <#${process.env.DISCORD_RULES_CHANNEL_UID}>\n`;
+  //   msg += `e.g '!join accept dalmation' - This is the name of your PoE account name **NOT** a character.\n`;
+  //   receivedMessage.channel.send(msg);
+  // } else {
+  //   receivedMessage.channel.send(
+  //     `Try '!help join' or '!help commands' for a list of commands.`
+  //   );
+  // }
+}
+
+function adminHelpCommand(receivedMessage) {
+  let text = `
+  Commands:
+  !admin whois <discord-acount>
+  !admin createLink <poe-account> <discord-account>
+  !admin getIgn <discord-account> - Fetch all in-game characters of the discord account (has to be prelinked)
+  !admin clear <number-of-messages> - bulk clear messages
+  !admin pending - see how many pendings application
+  `;
+
+  receivedMessage.channel.send(`\`\`\`${text}\`\`\``);
 }
 
 module.exports = {
