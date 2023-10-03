@@ -145,7 +145,8 @@ async function clear(channel, amount) {
   try {
     // Fetch the messages to be deleted
     const messages = await channel.messages.fetch({ limit: amount });
-
+    // console.log(`message`, messages);
+    // console.log(`amount`, amount);
     // Delete the messages
     await channel.bulkDelete(messages);
 

@@ -95,7 +95,7 @@ async function processCommand(receivedMessage) {
               //   `receivedMessage.channel la`,
               //   receivedMessage.channel
               // );
-              clear(receivedMessage.channel, args[2]);
+              clear(receivedMessage.channel, args[1]);
 
               break;
             default:
