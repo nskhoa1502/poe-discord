@@ -10,7 +10,7 @@ const AdminService = require("../services/adminService");
 
 const Logger = require("../logger").getLogger();
 
-function processCommand(receivedMessage) {
+async function processCommand(receivedMessage) {
   const fullCommand = receivedMessage.content.substr(1); // Remove the leading exclamation mark
   const splitCommand = fullCommand.split(" "); // Split the message up in to pieces for each space
   const primaryCommand = splitCommand[0]; // The first word directly after the exclamation is the command
@@ -34,8 +34,13 @@ function processCommand(receivedMessage) {
       PatchService.printLatestPatchNotes(receivedMessage);
       break;
     case "join":
-      NewMemberController.joinAcceptGuildRules(args, receivedMessage);
-      AdminService.adminGetIgn(receivedMessage.author, receivedMessage);
+      await NewMemberController.joinAcceptGuildRules(args, receivedMessage);
+      setTimeout(async () => {
+        await AdminService.adminGetIgn(
+          receivedMessage.author.id,
+          receivedMessage
+        );
+      }, 3000);
       break;
     case "members":
       CurrentExilesService.printCurrentMemberLength(receivedMessage);

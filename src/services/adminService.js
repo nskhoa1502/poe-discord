@@ -25,13 +25,18 @@ async function isAdmin(receivedMessage) {
 }
 
 async function adminGetIgn(discordUid, receivedMessage) {
+  console.log(`discordUID la`, discordUid);
+  console.log(`received message la`, receivedMessage);
   const extractDiscordUidNumber = /<@(\d+)>/; // Modify the regex pattern
   const discordUidNumb = discordUid.match(extractDiscordUidNumber);
   let inGameCharacters = [];
   let numericPart;
   if (discordUidNumb) {
     numericPart = discordUidNumb[1];
+  } else {
+    numericPart = discordUid;
   }
+  console.log(`numericPart`, numericPart);
   // console.log("discordUid", discordUid);
   // console.log("discordNumb", discordUidNumb);
   // console.log("numericPart", numericPart);
@@ -39,7 +44,7 @@ async function adminGetIgn(discordUid, receivedMessage) {
     const user = await MongoDB.getDB()
       .collection(currenExilesCollection)
       .findOne({ discordUid: numericPart });
-
+    console.log(`user la`, user);
     Logger.info(
       `Fetching in-game characters for discord user ${user.discordUsername} with poe account ${user.id}`
     );
