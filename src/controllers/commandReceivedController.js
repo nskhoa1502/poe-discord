@@ -120,7 +120,7 @@ async function processCommand(receivedMessage) {
 
 function helpCommand(receivedMessage) {
   let text = `
-  Commands:
+  Member Commands:
   - !patch - get Poe patch notes
   - !filter
   - !members - number of guild members
@@ -150,7 +150,7 @@ function helpCommand(receivedMessage) {
 
 function adminHelpCommand(receivedMessage) {
   let text = `
-  Commands:
+  Admin Commands:
   !admin whois <discord-acount>
   !admin createLink <poe-account> <discord-account>
   !admin getIgn <discord-account> - Fetch all in-game characters of the discord account (has to be prelinked)
