@@ -87,12 +87,22 @@ async function isAdminCreateLink(
   receivedMessage
 ) {
   const admin = true;
+  const extractDiscordUidNumber = /<@(\d+)>/; // Modify the regex pattern
+  const discordUidNumb = discordAccount.match(extractDiscordUidNumber);
+  let numericPart;
+  console.log(`discord account`, discordAccount);
+  if (discordUidNumb) {
+    numericPart = discordUidNumb[1];
+  } else {
+    numericPart = discordAccount;
+  }
+  console.log(`numericPart`, numericPart);
   const linkedMember = await DiscordHelper.getGuild().members.fetch(
-    receivedMessage.author.id
+    numericPart
   );
 
-  // console.log("LinkedMember", linkedMember);
-  // console.log("LinkedMember.user", linkedMember.user);
+  console.log("LinkedMember", linkedMember);
+  console.log("LinkedMember.user", linkedMember.user);
 
   Logger.info(
     `Admin ${receivedMessage.author.username}/${receivedMessage.author.id} has started linking ${poeAccountName} to member ${linkedMember.user.username}`
