@@ -136,6 +136,27 @@ function sendMessageAndRemoveCommandMessage(receivedMessage, message) {
     });
 }
 
+/**
+ * Clear a specified number of messages from a channel.
+ * @param {Discord.js TextChannel} channel The channel to clear messages from.
+ * @param {number} amount The number of messages to clear.
+ */
+async function clear(channel, amount) {
+  try {
+    // Fetch the messages to be deleted
+    const messages = await channel.messages.fetch({ limit: amount });
+
+    // Delete the messages
+    await channel.bulkDelete(messages);
+
+    // Optionally, send a confirmation message
+    const confirmationMessage = `Cleared ${amount} messages.`;
+    sendMessageToMembersLogChannel(confirmationMessage);
+  } catch (error) {
+    Logger.error(`Error clearing messages: ${error}`);
+  }
+}
+
 module.exports = {
   getGuild,
   getGuildAsync,
@@ -147,4 +168,5 @@ module.exports = {
   doLogin,
   onEvent,
   DiscordFileLog,
+  clear,
 };

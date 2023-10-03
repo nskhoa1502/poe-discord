@@ -7,6 +7,7 @@ const PatchService = require("../services/patchService");
 
 const BotPoeApiServices = require("../services/poeApiService");
 const AdminService = require("../services/adminService");
+const { clear } = require("../discordHelper");
 
 const Logger = require("../logger").getLogger();
 
@@ -33,6 +34,7 @@ async function processCommand(receivedMessage) {
     case "patch":
       PatchService.printLatestPatchNotes(receivedMessage);
       break;
+
     case "join":
       await NewMemberController.joinAcceptGuildRules(args, receivedMessage);
       setTimeout(async () => {
@@ -87,6 +89,14 @@ async function processCommand(receivedMessage) {
                     receivedMessage
                   );
               }
+              break;
+            case "clear":
+              // console.log(
+              //   `receivedMessage.channel la`,
+              //   receivedMessage.channel
+              // );
+              clear(receivedMessage.channel, args[2]);
+
               break;
             default:
               receivedMessage.channel.send(
