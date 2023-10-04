@@ -169,7 +169,7 @@ function whois(author, receivedMessage) {
         for (let i = 0; i < result.inGameCharacters.length; i++) {
           let c = result.inGameCharacters[i];
           if (c.league === CURRENT_LEAGUE) {
-            charStr += `\n*Name:* ${c.name} \n Class: ${c.className} ;`;
+            charStr += `\n*Name:* ${c.name} - Class: ${c.className} ;`;
           }
         }
       }
