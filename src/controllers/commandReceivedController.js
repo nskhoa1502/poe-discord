@@ -49,6 +49,7 @@ async function processCommand(receivedMessage) {
       break;
     case "whois":
       AdminService.whois(args[0], receivedMessage);
+      AdminService.adminGetIgn(args[0], receivedMessage);
       break;
     case "filter":
       receivedMessage.channel.send(
@@ -67,6 +68,7 @@ async function processCommand(receivedMessage) {
           switch (args[0]) {
             case "whois":
               AdminService.whois(args[1], receivedMessage);
+              AdminService.adminGetIgn(args[1], receivedMessage);
               break;
             case "createLink":
               AdminService.isAdminCreateLink(args[1], args[2], receivedMessage);

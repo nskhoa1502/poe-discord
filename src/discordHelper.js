@@ -1,7 +1,10 @@
 const { Client, GatewayIntentBits } = require("discord.js");
 const discordGuildUid = process.env.DISCORD_GUILD_UID;
 const discordGuildOwnerUid = process.env.DISCORD_GUILD_OWNER_UID;
-const discordMemberLogChannelUid = process.env.DISCORD_MEMBERS_LOG_CHANNEL_UID;
+const discordMemberLogChannelUid =
+  process.env.DISCORD_END_LEAGUE_COUNTDOWN_CHANNEL_UID;
+const discordEndLeagueCounterChannelUid =
+  process.env.DISCORD_END_LEAGUE_COUNTDOWN_UID;
 
 const discordReceivedMessageRemovalDelay = process.env
   .DISCORD_RECEIVED_MESSAGE_REMOVAL_DELAY
@@ -92,6 +95,14 @@ function sendMessageToMembersLogChannel(message) {
   }
 }
 
+async function updateLeagueEndDate() {
+  // const channelCache = discordClient.channels.fetch(
+  //   discordEndLeagueCounterChannelUid
+  // );
+  // console.log(discordClient.guilds.fetch(discordGuildUid));
+}
+
+updateLeagueEndDate();
 /**
  * Sends a message replying to the received message and then deletes the sent message
  * and the received message after X time in millis.
@@ -159,6 +170,7 @@ async function clear(channel, amount) {
 }
 
 module.exports = {
+  updateLeagueEndDate,
   getGuild,
   getGuildAsync,
   getGuildOwnerUid,

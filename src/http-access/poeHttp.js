@@ -31,6 +31,12 @@ async function getPatchNotes() {
   return RP(url);
 }
 
+async function getLeagueName() {
+  let url = `https://api.pathofexile.com/league?realm=pc&type=main&limit=1&offset=8`;
+  HttpFileLog.info(`Calling: ${url}`);
+  return RP(url);
+}
+
 /**
  * Rate Limited Function (Has it's own limiter)
  * x-rate-limit-policy: ladder-view
@@ -102,4 +108,5 @@ module.exports = {
   getAccountCharacters,
   getGuildProfile,
   fetchAccountNameForCharacter,
+  getLeagueName,
 };

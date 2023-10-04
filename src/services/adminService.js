@@ -50,29 +50,36 @@ async function adminGetIgn(discordUid, receivedMessage) {
     );
     // console.log("user is", user);
     // console.log("received message", receivedMessage);
+    if (!user.inGameCharacters) {
+      const charactersJson = await PoeHttp.getAccountCharacters(user.id);
+      console.log("charactersJson", charactersJson);
+      for (let i = 0; i < charactersJson.length; i++) {
+        const { name, league } = charactersJson[i];
+        const className = charactersJson[i]["class"];
+        inGameCharacters.push({ name, className, league });
+      }
 
-    const charactersJson = await PoeHttp.getAccountCharacters(user.id);
-    console.log("charactersJson", charactersJson);
-    for (let i = 0; i < charactersJson.length; i++) {
-      const { name, league } = charactersJson[i];
-      const className = charactersJson[i]["class"];
-      inGameCharacters.push({ name, className, league });
+      Logger.info(
+        `Finished fetching in-game characters for discord user ${user.discordUsername} with poe account ${user.id}`
+      );
+      // console.log(inGameCharacters);
+
+      await CurrentExile.updateOneIgCharacter(numericPart, inGameCharacters);
+      DiscordHelper.sendMessageToMembersLogChannel(
+        `Finished fetching characters for discord ${user.discordUsername} with poe account ${user.id}`
+      );
+      DiscordHelper.sendMessageAndRemoveCommandMessage(
+        receivedMessage,
+        `Finished fetching characters for discord ${user.discordUsername} with poe account ${user.id}`
+      );
+
+      return;
+    } else {
+      Logger.info(`Characters for poe account ${user.id} already been fetched`);
+      DiscordHelper.sendMessageAndRemoveCommandMessage(
+        `Characters for poe account ${user.id} already been fetched`
+      );
     }
-
-    Logger.info(
-      `Finished fetching in-game characters for discord user ${user.discordUsername} with poe account ${user.id}`
-    );
-    // console.log(inGameCharacters);
-
-    await CurrentExile.updateOneIgCharacter(numericPart, inGameCharacters);
-    DiscordHelper.sendMessageToMembersLogChannel(
-      `Finished fetching characters for discord ${user.discordUsername} with poe account ${user.id}`
-    );
-    DiscordHelper.sendMessageAndRemoveCommandMessage(
-      receivedMessage,
-      `Finished fetching characters for discord ${user.discordUsername} with poe account ${user.id}`
-    );
-
     return;
   } catch (error) {
     Logger.info(
